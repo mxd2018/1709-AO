@@ -39,7 +39,7 @@ public class UserLogin {
 				session.setAttribute("sessionUser", findUser);
 				return "1";
 			}else{
-				return "用户名或密码不正确";
+				return "0";
 			}
 		}	
 		return "0";		

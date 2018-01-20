@@ -51,9 +51,13 @@
 			</div>
 		</div>
 		<form id="myForm" name="myForm">
-		<input type="hidden" name="id" value="${sessionUser.id}"/>
-		<input type="hidden" name="password" value="${sessionUser.password}" id="u_sex"/>
-		<input type="hidden" name="isadmin" value="${sessionUser.isadmin}" id="u_supper"/>
+		<!-- RESTful风格 -->
+		<!-- <input type="hidden" name="_method" value="put" /> --> 
+		
+		<!-- 隐藏的表单数据 -->
+		<input type="hidden" name="isread" value="未读" id=""/>
+		<input type="hidden" name="isdelete" value="0" id=""/>
+		<input type="hidden" name="writeuser" value="${sessionUser.id}" id=""/>
 		<div class="main">
 			<div class="global-width">
 				
@@ -82,13 +86,13 @@
 							邮件管理
 						</dt>
 						<dd>
-							<a href="${pageContext.request.contextPath}/mail/mailWrite.action" target="_self">写邮件</a>
+							<a href="${pageContext.request.contextPath}/userInfo/mailWrite.action" target="_self">写邮件</a>
 						</dd>
 						<dd>
-							<a href="mailReceive!receive.action" target="_self">收邮件</a>
+							<a href="${pageContext.request.contextPath}/mail/receive.action" target="_self">收邮件</a>
 						</dd>
 						<dd>
-							<a href="mailGarage!garage.action" target="_self">垃圾邮件</a>
+							<a href="${pageContext.request.contextPath}/mail/garage.action" target="_self">垃圾邮件</a>
 						</dd>
 					</dl>
 					<dl>
@@ -97,7 +101,7 @@
 							考勤管理
 						</dt>
 						<dd>
-							<a href="leave.action" target="_self">休假</a>
+							<a href="${pageContext.request.contextPath}/vacation/leave.action?leave_id=${sessionUser.id}" target="_self">休假</a>
 						</dd>
 					</dl>
 					
@@ -109,12 +113,12 @@
 						</dt>
 						
 						<dd>
-							<a href="userInfo!singleAccountData.action" target="_self">个人账户</a>
+							<a href="${pageContext.request.contextPath}/userInfo/toSingleAccount.action" target="_self">个人账户</a>
 						</dd>
 						
 						<c:if test="${sessionUser.isadmin==1}">
 							<dd>
-								<a href="" target="">管理账户</a>
+								<a href="${pageContext.request.contextPath}/userInfo/toAllAcount.action" target="_self">管理账户</a>
 							</dd>
 						</c:if>
 					</dl>
@@ -124,16 +128,21 @@
  
 					<div class="action">
 						<div class="t">
-							个人信息
+							写邮件
 						</div>
 						<div class="pages">
 							<table width="90%" border="0" cellspacing="0" cellpadding="0">
 								<tr >
 									<td align="right" width="30%">收件人：</td>
 									<td  align="left">
-										<select>
-											<option>1</option>
-											<option>2</option>
+										<select name="receiveuser" id="receiveuser">
+											<c:forEach items="${uList}" var="ruser">
+												
+												<c:if test="${ruser.id != sessionUser.id}">
+													<option value="${ruser.id}">${ruser.username}</option>
+												</c:if>
+												
+											</c:forEach>
 										</select>
 									</td>
 								</tr>
@@ -146,13 +155,14 @@
 								<tr >
 									<td align="right" width="30%">邮件内容：</td>
 									<td  align="left">
-										<textarea name="emailcontent"></textarea>
+										<textarea name="mailcontent"></textarea>
 									</td>
 								</tr>
 								<tr >
 									<td align="right" width="30%">上传附件：</td>
 									<td  align="left">
-										<input type="file" name="mailfile" />
+										<!-- <input type="file" name="mailfile" /> -->
+										<input type="text" name="mailfile"/>
 									</td>
 								</tr>
 								
@@ -180,12 +190,12 @@
 			$(function(){
 				$("#myForm").validate({
 					rules:{
-						username:"required",
-						phone:{digits:true,minlength:11}
+						mailtitle:"required",
+						
 					},
 					messages:{
-						username:"用户名不能为空",
-						phone:"号码不足11位"
+						mailtitle:"请输入邮件标题",
+						
 					},
 					submitHandler:function(){
 						//Ajax提交表单
@@ -193,12 +203,13 @@
 							data:$("#myForm").serialize(),
 							dataType:"text",
 							type:"post",
-							url:"${pageContext.request.contextPath}/userInfo/saveInfo.action",
+							url:"${pageContext.request.contextPath}/mail/mailsend.action",
 							success:function(rec){
 								if(rec=="0"){
-									alert("保存成功！")
+									alert("发送成功！")
+									location.href="${pageContext.request.contextPath}/userInfo/mailWrite.action"
 								}else{
-									alert("抱歉，保存失败！")
+									alert("抱歉，发送失败！")
 								}	
 							}
 						});

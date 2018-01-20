@@ -66,13 +66,13 @@
 							邮件管理
 						</dt>
 						<dd>
-							<a href="${pageContext.request.contextPath}/mail/mailWrite.action" target="_self">写邮件</a>
+							<a href="${pageContext.request.contextPath}/userInfo/mailWrite.action" target="_self">写邮件</a>
 						</dd>
 						<dd>
-							<a href="mailReceive!receive.action" target="_self">收邮件</a>
+							<a href="${pageContext.request.contextPath}/mail/receive.action" target="_self">收邮件</a>
 						</dd>
 						<dd>
-							<a href="mailGarage!garage.action" target="_self">垃圾邮件</a>
+							<a href="${pageContext.request.contextPath}/mail/garage.action" target="_self">垃圾邮件</a>
 						</dd>
 					</dl>
 					<dl>
@@ -81,7 +81,7 @@
 							考勤管理
 						</dt>
 						<dd>
-							<a href="leave.action" target="_self">休假</a>
+							<a href="${pageContext.request.contextPath}/vacation/leave.action?leave_id=${sessionUser.id}" target="_self">休假</a>
 						</dd>
 					</dl>
 					
@@ -93,12 +93,12 @@
 						</dt>
 						
 						<dd>
-							<a href="userInfo!singleAccountData.action" target="_self">个人账户</a>
+							<a href="${pageContext.request.contextPath}/userInfo/toSingleAccount.action" target="_self">个人账户</a>
 						</dd>
 						
 						<c:if test="${sessionUser.isadmin==1}">
 							<dd>
-								<a href="" target="">管理账户</a>
+								<a href="${pageContext.request.contextPath}/userInfo/toAllAcount.action" target="_self">管理账户</a>
 							</dd>
 						</c:if>
 					</dl>

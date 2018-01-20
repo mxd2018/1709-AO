@@ -1,5 +1,7 @@
 package com.mxd.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,35 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public void updateUser(User user) {
 		userDao.updateUser(user);
+	}
+
+	@Override
+	public List<User> findAllUser() {
+		List<User> uList = userDao.findAllUser();
+		return uList;
+	}
+
+	@Override
+	public void updateSingle(User user) {
+		userDao.updateSingle(user);
+		
+	}
+
+	@Override
+	public void addUserAccount(User user) {
+		userDao.addUserAccount(user);	
+	}
+
+	@Override
+	public User findUserById(Integer leave_id) {
+		User user = userDao.findUserById(leave_id);
+		return user;
+	}
+
+	@Override
+	public List<User> findAdmin() {
+		List<User> admins = userDao.findAdmin();
+		return admins;
 	}
 	
 }

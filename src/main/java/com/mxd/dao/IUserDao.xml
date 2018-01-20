@@ -9,8 +9,37 @@
 		select * from user where username=#{username}
 	</select>
 	
-	<select id="updateUser" parameterType="User">
-		update user set username=#{username},gender=#{gender},age=#{age},phone=#{phone},address=#{address} where id=#{id}
+	<select id="findUserById" parameterType="int" resultType="User">
+		select * from user where id=#{leave_id}
 	</select>
-
+	
+	<update id="updateUser" parameterType="User">
+		update user set username=#{username},gender=#{gender},age=#{age},phone=#{phone},address=#{address} where id=#{id}
+	</update>
+	
+	<select id="findAllUser" resultType="User">
+		select * from user 
+	</select>
+	
+	<select id="findUserByFk" resultType="User">
+		select * from user where id=#{writeuser}
+	</select>
+	
+	<update id="updateSingle" parameterType="User">
+		update user
+		<set>
+			username=#{username},
+			password=#{password},
+		</set>
+		where id=#{id}
+	</update>
+	
+	<insert id="addUserAccount" parameterType="User">
+		insert into user (username,password,gender,age,phone,address,isadmin) 
+		values(#{username},#{password},#{gender},#{age},#{phone},#{address},#{isadmin})
+	</insert>
+	
+	<select id="findAdmin" resultType="User">
+		select * from user where isadmin=1
+	</select>
 </mapper>

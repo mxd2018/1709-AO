@@ -4,7 +4,8 @@
 <configuration>
 	
 	<typeAliases>
-		<typeAlias alias="User" type="com.mxd.pojo.po.User" />
+		<!-- <typeAlias alias="User" type="com.mxd.pojo.po.User" /> -->
+		<package name="com.mxd.pojo.po"/>
 	</typeAliases>
 
 </configuration> 

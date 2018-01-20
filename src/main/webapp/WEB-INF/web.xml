@@ -16,14 +16,14 @@
     </listener>
     
     <!-- RESTful风格 -->
-    <!-- <filter>
+    <filter>
     	<filter-name>HiddenHttpMethodFilter</filter-name>
     	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
     </filter>
     <filter-mapping>
     	<filter-name>HiddenHttpMethodFilter</filter-name>
     	<url-pattern>/*</url-pattern>
-    </filter-mapping> -->
+    </filter-mapping>
 	
 	<!--解决post请求的中文乱码问题，来自于spring框架，建议放在DispatcherServlet之前  -->
 	<!--解决get类型的乱码问题：1.tomcat maven 插件中改 （pom.xml<uriEncoding>）2.在本地/服务器上的Tomcat文件夹中的server.xml配置中改  -->
