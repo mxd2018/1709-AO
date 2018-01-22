@@ -1,20 +1,32 @@
 package com.mxd.web;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mxd.pojo.po.Mail;
 import com.mxd.pojo.po.User;
 import com.mxd.service.IMailService;
+
+import sun.misc.BASE64Encoder;
 
 @Controller
 @RequestMapping(value="/mail")
@@ -24,11 +36,61 @@ public class UserMail {
 	
 	//发送邮件
 	@RequestMapping(value="/mailsend.action")
-	@ResponseBody
-	public String mailSend(Mail mail,HttpSession session){
+	
+	public String mailSend(Mail mail,@RequestParam("file")MultipartFile file,HttpServletRequest request) throws IllegalStateException, IOException{
+		
+		String realPath = request.getServletContext().getRealPath("/");
+		//System.out.println(realPath);
+		String originalFilename = file.getOriginalFilename();
+		
+		mail.setMailfile(file.getOriginalFilename());
+		
+		if (!file.isEmpty())
+	     {
+			file.transferTo(new File(realPath+"sendFile/"+file.getOriginalFilename())); 
+	     }
 		mailservice.saveMail(mail);
-		return "0";
+		
+		return "mailWrite";
 	}
+	
+	//下载文件
+	@RequestMapping(value="downloadmail.action")
+	public void downLoad(HttpServletResponse response,HttpServletRequest request) throws IOException{
+		String filename = request.getParameter("filename");
+		//filename = new String(filename.getBytes("iso8859-1"),"utf-8");
+		
+		String realPath = request.getServletContext().getRealPath("/sendFile/"+filename);
+		
+		request.getServletContext().getMimeType(filename);
+		
+		String agent = request.getHeader("User-Agent");
+		String filenameencode=filename;
+		response.setHeader("Content-Disposition","attachment;filename="+filenameencode);
+		if (agent.contains("MSIE")) {
+			// IE浏览器
+			filenameencode = URLEncoder.encode(filenameencode, "utf-8");
+			filenameencode = filenameencode.replace("+", " ");
+		} else if (agent.contains("Firefox")) {
+			// 火狐浏览器
+			BASE64Encoder base64Encoder = new BASE64Encoder();
+			filenameencode = "=?utf-8?B?"+ base64Encoder.encode(filenameencode.getBytes("utf-8")) + "?=";
+		} else {
+			// 其它浏览器
+			filenameencode = URLEncoder.encode(filenameencode, "utf-8");				
+		} 
+			response.setHeader("Content-Disposition","attachment;filename="+filenameencode);
+		
+			FileInputStream in = new FileInputStream(new File(realPath));
+			ServletOutputStream out = response.getOutputStream();
+			int b=0;
+			while((b=in.read())!=-1){
+				out.write(b);
+			}
+				in.close();
+	}
+	
+	
 	
 	//查看所有接受邮件
 	@RequestMapping(value="/receive.action")

@@ -4,7 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8"/>
+		<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
 		<title>办公自动化管理系统</title>
 		<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
 		<script>
@@ -50,7 +51,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="location.href='${pageContext.request.contextPath}/user/loginOut.action'";>注销</a>
 			</div>
 		</div>
-		<form id="myForm" name="myForm">
+		<form id="myForm" name="myForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/mail/mailsend.action">
 		<!-- RESTful风格 -->
 		<!-- <input type="hidden" name="_method" value="put" /> --> 
 		
@@ -161,11 +162,13 @@
 								<tr >
 									<td align="right" width="30%">上传附件：</td>
 									<td  align="left">
-										<!-- <input type="file" name="mailfile" /> -->
-										<input type="text" name="mailfile"/>
+										<input type="file" name="file" id="file"/>
+										
+										<b><font color="red" id="mess"></font></b>
 									</td>
+									
 								</tr>
-								
+									
 								<tr >
 									<td align="center" colspan="2"><br/>
 									<input type="submit"  id="save" value="发送邮件" />
@@ -190,17 +193,20 @@
 			$(function(){
 				$("#myForm").validate({
 					rules:{
-						mailtitle:"required",
+						mailtitle:"required"
+						
 						
 					},
 					messages:{
-						mailtitle:"请输入邮件标题",
+						mailtitle:"请输入邮件标题"
 						
-					},
-					submitHandler:function(){
+						
+					}
+					/* submitHandler:function(){
 						//Ajax提交表单
+						var formData = new FormData($( "#myForm" )[0]); 
 						$.ajax({
-							data:$("#myForm").serialize(),
+							data:formData,
 							dataType:"text",
 							type:"post",
 							url:"${pageContext.request.contextPath}/mail/mailsend.action",
@@ -213,11 +219,21 @@
 								}	
 							}
 						});
-					}
+					}  */
 				});
 				
 				
 			})
 	
 	</script>
+	<!-- <script>
+		$(function(){
+			var dom = document.getElementById("file");
+			var fileSize=dom.files[0].size;
+			if(fileSize>900){
+				$("#mess").html("上传文件过大");
+				return false;
+			}
+		})
+	</script> -->
 </html>
