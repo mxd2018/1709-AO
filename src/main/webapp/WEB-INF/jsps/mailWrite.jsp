@@ -226,14 +226,17 @@
 			})
 	
 	</script>
-	<!-- <script>
+	<script>
 		$(function(){
-			var dom = document.getElementById("file");
-			var fileSize=dom.files[0].size;
-			if(fileSize>900){
-				$("#mess").html("上传文件过大");
-				return false;
-			}
-		})
-	</script> -->
+			$("#save").click(function(){
+				var dom = document.getElementById("file");
+				var fileSize=dom.files[0].size;
+				if(fileSize>500){
+					$("#mess").html("上传文件不得超过9M");
+					return false;
+				}
+			});
+			
+		});
+	</script>
 </html>
