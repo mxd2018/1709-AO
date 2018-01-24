@@ -28,6 +28,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<!-- 注解的方式管理事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<!--可以使用注解代替以下配置 -->
 	<!-- 通知 -->

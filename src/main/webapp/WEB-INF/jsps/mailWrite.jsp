@@ -156,7 +156,7 @@
 								<tr >
 									<td align="right" width="30%">邮件内容：</td>
 									<td  align="left">
-										<textarea name="mailcontent"></textarea>
+										<textarea name="mailcontent"  rows="10" cols="30"></textarea>
 									</td>
 								</tr>
 								<tr >
@@ -231,7 +231,7 @@
 			$("#save").click(function(){
 				var dom = document.getElementById("file");
 				var fileSize=dom.files[0].size;
-				if(fileSize>500){
+				if(fileSize>50000){
 					$("#mess").html("上传文件不得超过9M");
 					return false;
 				}
