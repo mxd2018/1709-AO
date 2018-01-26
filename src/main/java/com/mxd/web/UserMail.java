@@ -109,12 +109,24 @@ public class UserMail {
 	 * 2.ajax传数据的方式？
 	 */
 	@RequestMapping(value="/removemail.action")
-	public String mailRemove(HttpServletRequest request){
-		String mid = request.getParameter("mid");
+	@ResponseBody
+	public String mailRemove(HttpServletRequest request,HttpSession session){
+		/*String mid = request.getParameter("mid");
 		int parseid = Integer.parseInt(mid);
 		mailservice.removeToGarage(parseid);
 		
-		return "redirect:receive.action";
+		return "redirect:receive.action";*/
+		String[] mids = request.getParameterValues("checkSingleBox");
+		if(mids!=null){
+			for(String mid :mids){
+				int parseid = Integer.parseInt(mid);
+				mailservice.removeToGarage(parseid);
+			}
+			return "0";
+		}else{
+			return "2";
+		}
+		
 	}
 	
 	//显示垃圾箱邮件

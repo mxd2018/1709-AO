@@ -42,4 +42,8 @@
 	<select id="findAdmin" resultType="User">
 		select * from user where isadmin=1
 	</select>
+	
+	<delete id="deleteUserById" parameterType="int">
+		delete from user where id=#{parseid}
+	</delete>
 </mapper>

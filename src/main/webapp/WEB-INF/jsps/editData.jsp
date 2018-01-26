@@ -129,7 +129,11 @@
 						<div class="pages">
 							<table width="90%" border="0" cellspacing="0" cellpadding="0">
 								<tr >
-									<td align="right" width="30%">用户名：</td><td  align="left"><input type="text" name="username" value="${sessionUser.username}"  id="nickname"/></td>
+									<td align="right" width="30%">用户名：</td>
+									<td  align="left">
+									<input type="text" name="username" value="${sessionUser.username}"  id="username" onchange="uspan_change()"/>
+									<span id="username_span" style="color:red"></span>
+									</td>
 								</tr>
 								<tr >
 									<td align="right" width="30%">年龄：</td><td  align="left"><input type="text" name="age" value="${sessionUser.age}"  id="age"/></td>
@@ -145,14 +149,18 @@
 									</td>
 								</tr>
 								<tr >
-									<td align="right" width="30%">手机：</td><td  align="left"><input type="text" name="phone" value="${sessionUser.phone}"  id="u_mobile"/></td>
+									<td align="right" width="30%">手机：</td>
+									<td  align="left">
+									<input type="text" name="phone" value="${sessionUser.phone}"  id="phone" onchange="phspan_change()"/>
+									<span id="phone_span" style="color:red"></span>
+									</td>
 								</tr>
 								<tr >
 									<td align="right" width="30%">地址：</td><td  align="left"><input type="text" name="address" value="${sessionUser.address}"  id="u_address"/></td>
 								</tr>
 								<tr >
 									<td align="center" colspan="2"><br/>
-									<input type="submit"  id="save" value="保存数据" />
+									<input type="submit"  id="save" value="保存数据" onclick="uspan_change2()"/>
 									<input type="button"  id="" value="返回" onclick="history.go(-1)" />
 									</td>
 								</tr>
@@ -169,6 +177,43 @@
 		</div>
  
 	</body>
+	<script type="text/javascript">
+		/* $(function(){
+				var uname = $("#username").val();
+				var phone = $("#phone").val();
+				if(uname==""){
+					$("#username_span").html("*");
+				}
+				if(phone==""){
+					$("#phone_span").html("*");
+				}
+		}) */
+	</script>
+	<script type="text/javascript">
+		var uspan_change = function(){
+			var uname = $("#username").val();
+			if(uname!=""){
+				$("#username_span").html("");
+			}else{
+				$("#username_span").html("*");
+			}
+		}
+		var uspan_change2 = function(){
+			var uname = $("#username").val();
+			if(uname==""){
+				$("#username_span").html("");
+			}
+		}
+		var phspan_change = function(){
+			var phone = $("#phone").val();
+			if(phone!=""){
+				$("#phone_span").html("");
+			}else{
+				$("#phone_span").html("*");
+			}	
+		}
+	</script>
+	
 	
 	<script type="text/javascript">
 			$(function(){
@@ -199,8 +244,7 @@
 						});
 					}
 				});
-				
-				
+	
 			})
 	
 	</script>

@@ -53,5 +53,11 @@ public class UserServiceImpl implements IUserService{
 		List<User> admins = userDao.findAdmin();
 		return admins;
 	}
+
+	@Override
+	public void deleteUserById(int parseid) {
+		userDao.deleteUserById(parseid);
+		
+	}
 	
 }

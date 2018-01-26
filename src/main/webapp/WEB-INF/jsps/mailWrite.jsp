@@ -150,7 +150,8 @@
 								<tr >
 									<td align="right" width="30%">邮件标题：</td>
 									<td  align="left">
-										<input type="text" name="mailtitle"  id="mailtitle"/>
+										<input type="text" name="mailtitle"  id="mailtitle" onchange="mtspan_change()"/>
+										<span id="mailtitle_span" style="color:red"></span>
 									</td>
 								</tr>
 								<tr >
@@ -162,9 +163,9 @@
 								<tr >
 									<td align="right" width="30%">上传附件：</td>
 									<td  align="left">
-										<input type="file" name="file" id="file"/>
+										<input type="file" name="file" id="file" onchange="fspan_change()"/>
+										<span id="mess" style="color:red"></span>
 										
-										<b><font color="red" id="mess"></font></b>
 									</td>
 									
 								</tr>
@@ -188,6 +189,32 @@
 		</div>
  
 	</body>
+	<script type="text/javascript">
+		$(function(){
+				var mailtitle = $("#mailtitle").val();
+				var file = $("#file").val();
+				if(mailtitle==""){
+					$("#mailtitle_span").html("*");
+				}
+				if(file==""){
+					$("#mess").html("*");
+				}
+		})
+	</script>
+	<script type="text/javascript">
+		var mtspan_change = function(){
+			var uname = $("#mailtitle").val();
+			if(uname!=""){
+				$("#mailtitle_span").html("");
+			}
+		}
+		var fspan_change = function(){
+			var file = $("#file").val();
+			if(file!=""){
+				$("#mess").html("");
+			}
+		}
+	</script>
 	
 	<script type="text/javascript">
 			$(function(){

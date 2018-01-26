@@ -2,6 +2,7 @@ package com.mxd.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +90,30 @@ public class UserInfo {
 	@RequestMapping(value="/addAccount.action")
 	@ResponseBody
 	public String addAccount(User user){
-		uService.addUserAccount(user);
+		User findUserByName = uService.findUserByName(user);
+		if(findUserByName==null){
+			uService.addUserAccount(user);
+			return "0";
+		}else{
+			return "3";
+		}
 		
-		return "0";
 	}
+	
+	//É¾³ýÕË»§
+		@RequestMapping(value="/deleteUser.action")
+		@ResponseBody
+		public String deleteAccount(HttpServletRequest request,HttpSession session){
+			String[] ids = request.getParameterValues("checkSingleBox");
+			if(ids!=null){
+				for(String id :ids){
+					int parseid = Integer.parseInt(id);
+					uService.deleteUserById(parseid);
+				}
+				return "0";
+			}else{
+				return "2";
+			}
+
+		}
 }

@@ -18,4 +18,6 @@ public interface IUserService {
 	void addUserAccount(User user);
 	
 	List<User> findAdmin();
+
+	void deleteUserById(int parseid);
 }
